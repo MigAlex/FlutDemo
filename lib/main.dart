@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './quiz.dart';
-import './result.dart';
+import './result.dart'; //importy by odczytac te widgety
 
 void main() => runApp(MyApp());
 
@@ -16,21 +16,40 @@ class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
-      'answers': ['Black', 'Red', 'Green', 'White'],
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
     },
     {
       'questionText': 'What\'s your favorite animal?',
-      'answers': ['Rabbit', 'Snake', 'Horse', 'Dog'],
+      'answers': [
+        {'text': 'Rabbit', 'score': 10},
+        {'text': 'Snake', 'score': 5},
+        {'text': 'Elephant', 'score': 3},
+        {'text': 'Dog', 'score': 10},
+      ],
     },
     {
       'questionText': 'Who\'s your favorite instructor?',
-      'answers': ['Arturito', 'Rasiak', 'Tadzio', 'Norek'],
+      'answers': [
+        {'text': 'Arturito', 'score': 10},
+        {'text': 'Rasiak', 'score': 2},
+        {'text': 'Tadzio', 'score': 6},
+        {'text': 'Norek', 'score': 6},
+      ],
     },
   ];
 
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+
+    _totalScore = _totalScore + score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -52,12 +71,13 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.black,
         ),
         body: _questionIndex < _questions.length
-            ? Quiz(                                 //widget ten jest okreslony w quiz.dart, by bylo bardziej czytelnie
+            ? Quiz(
+                //widget ten jest okreslony w quiz.dart, by bylo bardziej czytelnie
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(),
+            : Result(_totalScore), //widget ten jest okreslony w result.dart, tj wyzej
       ),
     );
   }
